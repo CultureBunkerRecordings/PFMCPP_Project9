@@ -15,10 +15,12 @@ Commit your changes by clicking on the Source Control panel on the left, enterin
 
  Wait for my code review.
  */
-
+ 
 #include <iostream>
 #include <string>
 #include <typeinfo>
+
+
 
 struct Point
 {
@@ -43,6 +45,8 @@ private:
     float x{0}, y{0};
 };
 
+//Wrapper/////////////////////////////////////////
+
 template<typename Type>
 struct Wrapper
 {
@@ -50,7 +54,49 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        if (val == 3.5)
+        {
+            std::cout<<"Wrapper::print(3.5)";
+        }
+    }
+    private:
+    Type val;
 };
+
+// Templated specialization of Wrapper struct for Point
+
+template<>
+struct Wrapper<Point>
+{
+    Wrapper(Point&& t) : val(std::move(t)) 
+    { 
+        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
+    }
+
+    
+
+    private:
+    Point val;
+};
+
+
+//Variatic Template funcs///////////
+
+template<typename T, typename ...Args>
+void variaticHelper(T&& first, Args&& ... everythingElse)
+{
+    variaticHelper( std::forward<Args>(everythingElse ) ...); //recursive call
+}
+
+template<typename T>
+void variaticHelper(T&& first)
+{
+    variaticHelper( std::forward<T>(first )); //recursive call
+}
+
 
 int main()
 {
