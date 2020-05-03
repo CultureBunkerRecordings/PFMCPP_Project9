@@ -57,11 +57,8 @@ struct Wrapper
 
     void print()
     {
-        if (val == 3.5)
-        {
-            std::cout<<"Wrapper::print(3.5)";
-        }
     }
+
     private:
     Type val;
 };
@@ -76,7 +73,9 @@ struct Wrapper<Point>
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
 
-    
+    void print()
+    {
+    }
 
     private:
     Point val;
@@ -88,13 +87,17 @@ struct Wrapper<Point>
 template<typename T, typename ...Args>
 void variadicHelper(T&& first, Args&& ... everythingElse)
 {
+    Wrapper wrapper(std::forward<T>(first));
+    wrapper.print();
     variadicHelper( std::forward<Args>(everythingElse ) ...); //recursive call
 }
 
 template<typename T>
 void variadicHelper(T&& first)
 {
-    variadicHelper( std::forward<T>(first )); //recursive call
+    Wrapper wrapper(std::forward<T>(first));
+    wrapper.print();
+    variadicHelper( std::forward<T>(first) ); //recursive call
 }
 
 
