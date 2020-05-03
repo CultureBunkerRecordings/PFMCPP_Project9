@@ -86,15 +86,15 @@ struct Wrapper<Point>
 //Variatic Template funcs///////////
 
 template<typename T, typename ...Args>
-void variaticHelper(T&& first, Args&& ... everythingElse)
+void variadicHelper(T&& first, Args&& ... everythingElse)
 {
-    variaticHelper( std::forward<Args>(everythingElse ) ...); //recursive call
+    variadicHelper( std::forward<Args>(everythingElse ) ...); //recursive call
 }
 
 template<typename T>
-void variaticHelper(T&& first)
+void variadicHelper(T&& first)
 {
-    variaticHelper( std::forward<T>(first )); //recursive call
+    variadicHelper( std::forward<T>(first )); //recursive call
 }
 
 
