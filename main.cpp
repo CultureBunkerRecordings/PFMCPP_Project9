@@ -108,8 +108,7 @@ template<typename T>
 void variadicHelper(T&& first)
 {
     Wrapper wrapper(std::forward<T>(first));
-    wrapper.print();
-    variadicHelper( std::forward<T>(first) ); //recursive call
+    wrapper.print(); //recursive call
 }
 
 
