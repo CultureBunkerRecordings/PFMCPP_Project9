@@ -57,9 +57,15 @@ struct Wrapper
 
     void print()
     {
-        std::cout << "Value: "; 
-        std::cout << "Wrapper::print(" << val << ")" << std::endl; 
-        std::cout << "------------------------" << std::endl; 
+        if constexpr(std::is_same<decltype(val), double>::value)
+        {
+            if(val == 3.5)
+            {
+                std::cout << "Value: "; 
+                std::cout << "Wrapper::print(" << val << ")" << std::endl; 
+                std::cout << "------------------------" << std::endl;
+            }
+        } 
     }
 
     private:
@@ -80,7 +86,7 @@ struct Wrapper<Point>
     {
         std::cout << "Value: "; 
         std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl; 
-        std::cout << "------------------------" << std::endl; 
+        std::cout << "------------------------" << std::endl;
     }
 
     private:
