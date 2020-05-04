@@ -57,15 +57,10 @@ struct Wrapper
 
     void print()
     {
-        if constexpr(std::is_same<decltype(val), double>::value)
-        {
-            if(val == 3.5)
-            {
-                std::cout << "Value: "; 
-                std::cout << "Wrapper::print(" << val << ")" << std::endl; 
-                std::cout << "------------------------" << std::endl;
-            }
-        } 
+        std::cout << "Value: "; 
+        std::cout << "Wrapper::print(" << val << ")" << std::endl; 
+        std::cout << "------------------------" << std::endl;
+
     }
 
     private:
@@ -114,7 +109,7 @@ void variadicHelper(T&& first)
 
 int main()
 {
-    variadicHelper( 3, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
+    variadicHelper( 3.5, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
 }
 
 
