@@ -15,10 +15,12 @@ Commit your changes by clicking on the Source Control panel on the left, enterin
 
  Wait for my code review.
  */
-
+ 
 #include <iostream>
 #include <string>
 #include <typeinfo>
+
+
 
 struct Point
 {
@@ -43,6 +45,8 @@ private:
     float x{0}, y{0};
 };
 
+//Wrapper/////////////////////////////////////////
+
 template<typename Type>
 struct Wrapper
 {
@@ -50,11 +54,62 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        std::cout << "Value: "; 
+        std::cout << "Wrapper::print(" << val << ")" << std::endl; 
+        std::cout << "------------------------" << std::endl;
+
+    }
+
+    private:
+    Type val;
 };
+
+// Templated specialization of Wrapper struct for Point
+
+template<>
+struct Wrapper<Point>
+{
+    Wrapper(Point&& t) : val(std::move(t)) 
+    { 
+        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
+    }
+
+    void print()
+    {
+        std::cout << "Value: "; 
+        std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl; 
+        std::cout << "------------------------" << std::endl;
+    }
+
+    private:
+    Point val;
+};
+
+
+//Variatic Template funcs///////////
+
+template<typename T, typename ...Args>
+void variadicHelper(T&& first, Args&& ... everythingElse)
+{
+    Wrapper wrapper(std::forward<T>(first));
+    wrapper.print();
+    variadicHelper( std::forward<Args>(everythingElse ) ...); //recursive call
+}
+
+template<typename T>
+void variadicHelper(T&& first)
+{
+    Wrapper wrapper(std::forward<T>(first));
+    wrapper.print(); //recursive call
+}
+
 
 int main()
 {
-    variadicHelper( 3, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
+    variadicHelper( 3.5, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
 }
 
 
